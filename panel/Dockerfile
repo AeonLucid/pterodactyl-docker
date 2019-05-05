@@ -8,7 +8,10 @@ RUN mkdir -p /opt /factorio && \
     echo "**** Installing dependencies ****" && \
     apt-get update && \
     apt-get install -y \
-        curl unzip tar git \
+        curl unzip tar git software-properties-common && \
+    add-apt-repository ppa:ondrej/php && \
+    apt-get update && \
+    apt-get install -y \
         php7.2 php7.2-common php7.2-cli php7.2-gd php7.2-mysql \
         php7.2-mbstring php7.2-bcmath php7.2-xml php7.2-curl php7.2-zip && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
