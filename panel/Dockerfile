@@ -55,5 +55,5 @@ RUN echo "**** Downloading Pterodactyl Panel ****" && \
 COPY files/ /
 
 # Ports and volumes.
-EXPOSE 80/tcp
+EXPOSE 8080/tcp
 VOLUME [ "/data" ]

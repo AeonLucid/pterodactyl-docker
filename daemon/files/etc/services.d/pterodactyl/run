@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv bash
+
+cd /opt/pterodactyl || exit
+
+echo "Starting Pterodactyl ${VERSION} daemon..."
+
+# Run
+exec s6-setuidgid abc npm start

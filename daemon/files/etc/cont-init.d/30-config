@@ -1,0 +1,10 @@
+#!/usr/bin/with-contenv bash
+
+# Permissions.
+chown -R abc:abc \
+	/opt/pterodactyl \
+	/data
+
+chmod g+w /data/* -R
+chmod g+w /opt/pterodactyl/config/* -R
+chmod g+w /opt/pterodactyl/packs/* -R
