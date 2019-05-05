@@ -1,5 +1,11 @@
 #!/usr/bin/with-contenv bash
 
+# Folders
+mkdir /mine
+
 # Permissions.
 chown -R abc:abc \
-	/var/www/pterodactyl
+	/var/www/pterodactyl \
+	/var/lib/nginx \
+	/data \
+	/mine

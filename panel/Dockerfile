@@ -14,6 +14,7 @@ RUN echo "**** Installing dependencies ****" && \
         unzip \
         tar \
         git \
+        nginx \
         php7.2 \
         php7.2-common \ 
         php7.2-cli \
@@ -23,7 +24,8 @@ RUN echo "**** Installing dependencies ****" && \
         php7.2-bcmath \
         php7.2-xml \
         php7.2-curl \
-        php7.2-zip && \
+        php7.2-zip \
+        php7.2-fpm && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN echo "**** Downloading Pterodactyl Panel ****" && \
@@ -37,7 +39,7 @@ RUN echo "**** Downloading Pterodactyl Panel ****" && \
     cd /var/www/pterodactyl && \
     echo "**** Installing php libraries ****" && \
     cp .env.example .env && \
-    composer install --no-dev && \
+    composer install --no-dev --optimize-autoloader && \
     echo "**** Creating storage template ****" && \
     find storage -type d > .storage.tmpl && \
     echo "**** Cleaning up ****" && \
@@ -54,3 +56,4 @@ COPY files/ /
 
 # Ports and volumes.
 EXPOSE 80/tcp
+VOLUME [ "/data" ]
