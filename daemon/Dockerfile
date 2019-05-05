@@ -1,49 +1,24 @@
-FROM lsiobase/ubuntu:xenial
+FROM node:8-alpine
 
-# Environment.
-ENV VERSION=0.6.12
+ENV VERSION=0.6.12 \
+    PGID=1234 \
+    PUID=1234 \
+    TZ=Europe/Amsterdam
 
-# Image.
-RUN echo "**** Installing dependencies ****" \
-    && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
-    && apt-get install -y \
-        curl \
-        tar \
-        unzip \
-        gcc \
-        g++ \
-        make \
-        nodejs \
-    && npm install -g node-gyp --unsafe-perm
+WORKDIR /srv/daemon
 
-RUN echo "**** Downloading Pterodactyl Daemon ****" \
-    && mkdir -p /opt/pterodactyl \
-    && curl -sSL https://github.com/pterodactyl/daemon/releases/download/v$VERSION/daemon.tar.gz \
-        -o /tmp/daemon.tar.gz \
-    && tar --strip-components=1 -xzvf /tmp/daemon.tar.gz --directory /opt/pterodactyl \
-    && echo "**** Setting permissions ****" \
-    && chmod ugo=rwx /opt/pterodactyl \
-    && cd /opt/pterodactyl \
-    && echo "**** Installing npm dependencies ****" \
-    && npm install --only=production --unsafe-perm \
-    && echo "**** Cleaning up ****" \
-    && apt-get purge -y \
-        curl \
-        gcc \
-        g++ \
-        make \
-    && apt-get autoremove -y \
-    && rm -rf \
-        /tmp/* \
-        /var/lib/apt/lists/* \
-        /var/tmp/* \
-        /root/.npm \
-        /root/.node-gyp
+RUN \
+ apk --update --no-cache add coreutils curl openssl make gcc g++ python gnupg tar shadow tzdata \
+ && curl -sSL https://github.com/pterodactyl/daemon/releases/download/v$VERSION/daemon.tar.gz -o daemon.tar.gz \
+ && tar --strip-components=1 -xzvf daemon.tar.gz \
+ && rm -f daemon.tar.gz \
+ && npm install --production \
+ && addgroup -S pterodactyl \
+ && adduser -S -D -H -G pterodactyl -s /bin/false pterodactyl \
+ && apk del curl make gcc g++ python gnupg \
+ && rm -rf /root/.npm /root/.node-gyp /root/.gnupg \
+ /var/cache/apk/* /tmp/*
 
-# Local files.
 COPY files/ /
 
-# Ports and volumes.
-EXPOSE 8080/tcp
-EXPOSE 2022/tcp
-VOLUME [ "/data", "/opt/pterodactyl/config", "/opt/pterodactyl/packs" ]
+ENTRYPOINT [ "/docker-entrypoint.sh" ]
