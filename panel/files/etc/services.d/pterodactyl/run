@@ -37,6 +37,7 @@ if [ ! -e /data/pterodactyl.conf ]; then
 
     # Copy example configuration file.
     cp .env.example /data/pterodactyl.conf
+    chmod g+w /data/pterodactyl.conf
 
     # Refresh symlink.
     rm -rf .env

@@ -9,3 +9,5 @@ chown -R abc:abc \
 	/var/lib/nginx \
 	/data \
 	/mine
+
+chmod g+w /data/* -R
