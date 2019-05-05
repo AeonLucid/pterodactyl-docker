@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv bash
+
+# Permissions.
+chown -R abc:abc \
+	/var/www/pterodactyl

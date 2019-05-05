@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv bash
+
+cd /var/www/pterodactyl || exit
+
+exec s6-setuidgid abc nginx –g "daemon off;"
