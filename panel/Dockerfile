@@ -1,7 +1,7 @@
 FROM lsiobase/ubuntu:xenial
 
 # Environment.
-ENV VERSION=0.7.13
+ENV VERSION=0.7.17
 
 # Image.
 RUN echo "**** Installing dependencies ****" && \
