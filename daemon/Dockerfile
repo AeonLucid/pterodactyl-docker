@@ -1,6 +1,6 @@
 FROM node:8-alpine
 
-ENV VERSION=0.6.12 \
+ENV VERSION=0.6.13 \
     PGID=1234 \
     PUID=1234 \
     TZ=Europe/Amsterdam
