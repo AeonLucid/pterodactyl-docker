@@ -1,7 +1,7 @@
 FROM lsiobase/ubuntu:xenial
 
 # Environment.
-ENV VERSION=1.1.1
+ENV VERSION=0.7.18
 
 # Image.
 RUN echo "**** Installing dependencies ****" && \
@@ -15,24 +15,24 @@ RUN echo "**** Installing dependencies ****" && \
         tar \
         git \
         nginx \
-        php7.4 \
-        php7.4-common \ 
-        php7.4-cli \
-        php7.4-gd \
-        php7.4-mysql \
-        php7.4-mbstring \
-        php7.4-bcmath \
-        php7.4-xml \
-        php7.4-curl \
-        php7.4-zip \
-        php7.4-fpm && \
+        php7.2 \
+        php7.2-common \ 
+        php7.2-cli \
+        php7.2-gd \
+        php7.2-mysql \
+        php7.2-mbstring \
+        php7.2-bcmath \
+        php7.2-xml \
+        php7.2-curl \
+        php7.2-zip \
+        php7.2-fpm && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN echo "**** Downloading Pterodactyl Panel ****" && \
     curl -sSL https://github.com/pterodactyl/panel/releases/download/v$VERSION/panel.tar.gz \
         -o /tmp/panel_$VERSION.tar.gz && \
     mkdir -p /var/www/pterodactyl && \
-    tar -xzvf /tmp/panel_$VERSION.tar.gz --directory /var/www/pterodactyl && \
+    tar --strip-components=1 -xzvf /tmp/panel_$VERSION.tar.gz --directory /var/www/pterodactyl && \
     echo "**** Setting permissions ****" && \
     chmod ugo=rwx /var/www/pterodactyl && \
     chmod -R 755 /var/www/pterodactyl/storage/* /var/www/pterodactyl/bootstrap/cache/ && \
